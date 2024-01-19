@@ -1,3 +1,4 @@
+const fs = require('fs')
 const path = require('path')
 const pdf_extract = require('pdf-extract')
 
@@ -13,4 +14,17 @@ const options = {
 const processor = pdf_extract(absolute_path_to_pdf, options, ()=>console.log("Starting…"))
 processor.on('complete', data => callback(null, data))
 processor.on('error', callback)
-function callback (error, data) { error ? console.error(error) : console.log(data.text_pages[0]) }
+function callback (error, data) { error ? console.error(error) : test_file_write(data.text_pages[0]) }
+
+
+
+
+
+test_file_write = function (content) {
+    try {
+        fs.writeFileSync('output.txt', content);
+        // file written successfully
+    } catch (err) {
+        console.error(err);
+    }
+}
